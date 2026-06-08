@@ -1,0 +1,15 @@
+# EDW Security → Veza OAA Integration — Python dependencies
+# Install: pip install -r requirements.txt
+
+# Veza OAA client
+oaaclient>=3.0.0
+
+# Environment / credential management
+python-dotenv>=1.0.0
+
+# HTTP (used indirectly by oaaclient)
+requests>=2.31.0
+urllib3>=2.0.0
+
+# Oracle Database thin driver (no Oracle Instant Client required)
+oracledb>=2.0.0
