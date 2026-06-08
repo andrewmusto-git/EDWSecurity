@@ -2,7 +2,7 @@
 # Install: pip install -r requirements.txt
 
 # Veza OAA client
-oaaclient>=3.0.0
+oaaclient>=1.1.0
 
 # Environment / credential management
 python-dotenv>=1.0.0
