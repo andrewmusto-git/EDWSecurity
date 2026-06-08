@@ -92,7 +92,7 @@ visible when running interactively or in a cron job.
 Once the repository is published, install with one command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_ORG/YOUR_REPO/main/integrations/edw-security/install_edw_security.sh | bash
+curl -fsSL https://raw.githubusercontent.com/andrewmusto-git/EDWSecurity/main/integrations/edw-security/install_edw_security.sh | bash
 ```
 
 The installer will prompt for all required values (Oracle host, port, SID,
@@ -109,8 +109,8 @@ credentials, WEB_APP_ID, Veza URL, API key).
 sudo dnf install -y python3 python3-pip git
 
 # Clone the repository
-git clone https://github.com/YOUR_ORG/YOUR_REPO.git
-cd YOUR_REPO/integrations/edw-security
+git clone https://github.com/andrewmusto-git/EDWSecurity.git
+cd EDWSecurity/integrations/edw-security
 
 # Virtual environment
 python3 -m venv venv
@@ -128,8 +128,8 @@ vi .env   # fill in all values
 ```bash
 sudo apt-get update && sudo apt-get install -y python3 python3-pip python3-venv git
 
-git clone https://github.com/YOUR_ORG/YOUR_REPO.git
-cd YOUR_REPO/integrations/edw-security
+git clone https://github.com/andrewmusto-git/EDWSecurity.git
+cd EDWSecurity/integrations/edw-security
 
 python3 -m venv venv
 source venv/bin/activate
@@ -212,10 +212,10 @@ python3 edw_security.py \
 
 ```bash
 # Create a dedicated, non-login service account
-sudo useradd -r -s /bin/bash -m -d /opt/edw-security-veza edw-veza
-sudo chown -R edw-veza:edw-veza /opt/edw-security-veza
-sudo chmod 700 /opt/edw-security-veza/scripts
-sudo chmod 600 /opt/edw-security-veza/scripts/.env
+sudo useradd -r -s /bin/bash -m -d /opt/VEZA/edw-security-veza edw-veza
+sudo chown -R edw-veza:edw-veza /opt/VEZA/edw-security-veza
+sudo chmod 700 /opt/VEZA/edw-security-veza/scripts
+sudo chmod 600 /opt/VEZA/edw-security-veza/scripts/.env
 ```
 
 ### SELinux (RHEL / CentOS)
@@ -223,24 +223,24 @@ sudo chmod 600 /opt/edw-security-veza/scripts/.env
 ```bash
 getenforce
 # If Enforcing, restore default context after copying files:
-sudo restorecon -Rv /opt/edw-security-veza/scripts/
+sudo restorecon -Rv /opt/VEZA/edw-security-veza/scripts/
 ```
 
 ### Cron wrapper script
 
-Create `/opt/edw-security-veza/scripts/run.sh`:
+Create `/opt/VEZA/edw-security-veza/scripts/run.sh`:
 
 ```bash
 #!/usr/bin/env bash
 set -uo pipefail
-cd /opt/edw-security-veza/scripts
-/opt/edw-security-veza/scripts/venv/bin/python3 edw_security.py \
-  --env-file /opt/edw-security-veza/scripts/.env \
+cd /opt/VEZA/edw-security-veza/scripts
+/opt/VEZA/edw-security-veza/scripts/venv/bin/python3 edw_security.py \
+  --env-file /opt/VEZA/edw-security-veza/scripts/.env \
   --log-level INFO
 ```
 
 ```bash
-chmod 700 /opt/edw-security-veza/scripts/run.sh
+chmod 700 /opt/VEZA/edw-security-veza/scripts/run.sh
 ```
 
 ### Cron schedule
@@ -249,7 +249,7 @@ chmod 700 /opt/edw-security-veza/scripts/run.sh
 
 ```cron
 # EDW Security → Veza OAA — runs daily at 06:00
-0 6 * * *  edw-veza  /opt/edw-security-veza/scripts/run.sh >> /opt/edw-security-veza/logs/cron.log 2>&1
+0 6 * * *  edw-veza  /opt/VEZA/edw-security-veza/scripts/run.sh >> /opt/VEZA/edw-security-veza/logs/cron.log 2>&1
 ```
 
 ### Log rotation
@@ -257,7 +257,7 @@ chmod 700 /opt/edw-security-veza/scripts/run.sh
 `/etc/logrotate.d/edw-security-veza`:
 
 ```
-/opt/edw-security-veza/logs/*.log {
+/opt/VEZA/edw-security-veza/logs/*.log {
     daily
     rotate 30
     compress
@@ -283,8 +283,8 @@ cp .env .env.100006
 Run each with its own env file and stagger cron entries by a few minutes:
 
 ```cron
-0 6 * * *  edw-veza  python3 /opt/edw-security-veza/scripts/edw_security.py --env-file /opt/edw-security-veza/scripts/.env.100005
-5 6 * * *  edw-veza  python3 /opt/edw-security-veza/scripts/edw_security.py --env-file /opt/edw-security-veza/scripts/.env.100006
+0 6 * * *  edw-veza  python3 /opt/VEZA/edw-security-veza/scripts/edw_security.py --env-file /opt/VEZA/edw-security-veza/scripts/.env.100005
+5 6 * * *  edw-veza  python3 /opt/VEZA/edw-security-veza/scripts/edw_security.py --env-file /opt/VEZA/edw-security-veza/scripts/.env.100006
 ```
 
 ---

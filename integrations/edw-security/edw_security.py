@@ -49,7 +49,7 @@ log = logging.getLogger(__name__)
 # Logging setup
 # ---------------------------------------------------------------------------
 def _setup_logging(log_level: str = "INFO") -> None:
-    """Configure rotating file logging + console handler."""
+    """Configure file-only logging with hourly rotation to the logs/ folder."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     log_dir = os.path.join(script_dir, "logs")
     os.makedirs(log_dir, exist_ok=True)
@@ -58,28 +58,21 @@ def _setup_logging(log_level: str = "INFO") -> None:
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     log_file = os.path.join(log_dir, f"{script_name}_{timestamp}.log")
 
-    file_handler = TimedRotatingFileHandler(
+    handler = TimedRotatingFileHandler(
         log_file,
         when="h",
         interval=1,
         backupCount=24,
         encoding="utf-8",
     )
-    file_handler.setFormatter(logging.Formatter(
+    handler.setFormatter(logging.Formatter(
         fmt="%(asctime)s %(levelname)-8s %(message)s",
         datefmt="%Y-%m-%dT%H:%M:%S",
     ))
 
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setFormatter(logging.Formatter(
-        fmt="%(asctime)s %(levelname)-8s %(message)s",
-        datefmt="%H:%M:%S",
-    ))
-
     root = logging.getLogger()
     root.setLevel(getattr(logging, log_level.upper(), logging.INFO))
-    root.addHandler(file_handler)
-    root.addHandler(console_handler)
+    root.addHandler(handler)
 
 
 # ---------------------------------------------------------------------------

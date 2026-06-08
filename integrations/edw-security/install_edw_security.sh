@@ -19,7 +19,7 @@
 # Optional flags:
 #   --non-interactive    skip all prompts (requires env vars above)
 #   --overwrite-env      overwrite an existing .env without asking
-#   --install-dir PATH   custom install root (default: /opt/edw-security-veza)
+#   --install-dir PATH   custom install root (default: /opt/VEZA/edw-security-veza)
 #   --repo-url URL       override GitHub repo URL for script download
 #   --branch NAME        override Git branch (default: main)
 # =============================================================================
@@ -28,7 +28,7 @@ set -uo pipefail
 # ---------------------------------------------------------------------------
 # Configurable defaults
 # ---------------------------------------------------------------------------
-INSTALL_DIR_DEFAULT="/opt/edw-security-veza"
+INSTALL_DIR_DEFAULT="/opt/VEZA/edw-security-veza"
 REPO_URL_DEFAULT="https://github.com/andrewmusto-git/EDWSecurity"
 BRANCH_DEFAULT="main"
 INTEGRATION_SUBDIR="integrations/edw-security"

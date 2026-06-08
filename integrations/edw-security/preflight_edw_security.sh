@@ -94,15 +94,24 @@ check_python_deps() {
 
     # Packages derived from requirements.txt
     local pkgs=("oaaclient" "oracledb" "dotenv" "requests" "urllib3")
+    # Map import name → distribution package name for version lookup
+    declare -A pkg_dist_name=(
+        ["dotenv"]="python-dotenv"
+        ["oaaclient"]="oaaclient"
+        ["oracledb"]="oracledb"
+        ["requests"]="requests"
+        ["urllib3"]="urllib3"
+    )
     for pkg in "${pkgs[@]}"; do
         local import_name="${pkg}"
         # dotenv is imported as 'dotenv' but installed as 'python-dotenv'
         if "${python_bin}" -c "import ${import_name}" &>/dev/null 2>&1; then
+            local dist_name="${pkg_dist_name[$pkg]:-$pkg}"
             local ver
             ver=$("${python_bin}" -c "
 import importlib.metadata, sys
 try:
-    print(importlib.metadata.version('${pkg}'))
+    print(importlib.metadata.version('${dist_name}'))
 except Exception:
     print('unknown')
 " 2>/dev/null)
