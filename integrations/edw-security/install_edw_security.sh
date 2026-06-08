@@ -29,7 +29,7 @@ set -uo pipefail
 # Configurable defaults
 # ---------------------------------------------------------------------------
 INSTALL_DIR_DEFAULT="/opt/edw-security-veza"
-REPO_URL_DEFAULT="https://github.com/YOUR_ORG/YOUR_REPO"
+REPO_URL_DEFAULT="https://github.com/andrewmusto-git/EDWSecurity"
 BRANCH_DEFAULT="main"
 INTEGRATION_SUBDIR="integrations/edw-security"
 SLUG="edw-security"
